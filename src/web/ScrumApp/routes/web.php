@@ -11,11 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
+Route::get('/', 'WelcomeControler@index')->name('welcome');
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
-Route::get('/profile','UserController@userProfile');
+Route::get('/profile','UserController@userProfile')->name('profile');
+Route::get('/project/list','ProjectController@getProject')->name('projects');
+Route::get('/project/add','ProjectController@showAddProjectForm');
+Route::post('/project/addProject','ProjectController@createProject');
+Route::get('/project/{id}','ProjectController@showProject')->name('showProject');
+
+Route::get('/project/showModifyProject/{id}','ProjectController@showModifyProject')->name('showModifyProject');
+Route::post('/project/showModifyProject/modify', 'ProjectController@modifyProject');

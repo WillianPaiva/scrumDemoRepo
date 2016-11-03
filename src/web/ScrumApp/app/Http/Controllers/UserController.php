@@ -21,7 +21,8 @@ use Illuminate\Http\Request;
      * @return \Illuminate\Http\Response
      */
 	public function userProfile()
-	{
+	{   
+          
 		return view('profile');
 	} 
 

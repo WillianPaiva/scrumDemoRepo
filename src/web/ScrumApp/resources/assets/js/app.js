@@ -12,9 +12,18 @@ require('./bootstrap');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
-Vue.component('example', require('./components/Example.vue'));
+Vue.component('projects', require('./components/projects.vue'));
+Vue.component('adduser', require('./components/AddUserForm.vue'));
+// Vue.component('members', require('./components/Members.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#memb',
+    data:{
+        members: []
+    }
+
+});
+
+const projects = new Vue({
+    el: '#projects'
 });

@@ -22,3 +22,19 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(App\Project::class, function (Faker\Generator $faker) {
+    static $password;
+
+    $user = App\User::all()->pluck('id')->toArray();
+    $lang = array('JavaScript', 'Java', 'PHP', 'Python', 'C', 'C++', 'Ruby', 'CSS', 'Objective-C');
+
+
+    return [
+        'name' => $faker->name,
+        'user_id' => $user[array_rand($user)],
+        'description' => $faker->paragraph,
+        'language' => $lang[array_rand($lang)],
+        'version' => $faker->randomDigit,
+    ];
+});
