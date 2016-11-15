@@ -25,4 +25,14 @@ class Project extends Model
         return $this->belongsToMany('App\User', 'project_user');
     }
 
+
+    public function UserStorys()
+    {
+        return $this->hasMany('App\UserStory');
+    }
+
+    public function Sprints()
+    {
+        return $this->hasMany('App\Sprint');
+    }
 }

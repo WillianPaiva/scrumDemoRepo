@@ -6,7 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- CSRF Token -->
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+      <meta id="token" name="token" value="{{ csrf_token() }}">
+      <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ config('app.name', 'Scrumk') }}</title>
 
@@ -24,6 +25,9 @@
         </script>
     </head>
     <body>
+<passport-clients></passport-clients>
+<passport-authorized-clients></passport-authorized-clients>
+<passport-personal-access-tokens></passport-personal-access-tokens>
         <div id="app">
             <nav class="navbar navbar-default navbar-static-top">
                 <div class="container-fluid">
@@ -55,6 +59,8 @@
                             <!-- Authentication Links -->
 
                             @if (!Auth::guest())
+
+
                                 @if (Route::currentRouteName() == 'projects')
                                     <li class="active"><a href="{{ url('/project/list') }}"><span class="fa fa-home"></span></a></li>
                                 @else
@@ -66,15 +72,17 @@
                                 <li><a href="{{ url('/register') }}">Register</a></li>
                             @else
                                 <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                        {{ Auth::user()->name }} <span class="caret"></span>
-                                    </a>
+                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="position:relative; padding-left:50px;">
+                                <img src="/uploads/avatars/{{ Auth::user()->avatar }}" style="width:32px; height:32px; position:absolute; top:10px; left:10px; border-radius:50%">
+                                {{ Auth::user()->name }} <span class="caret"></span>
+                                </a>
 
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
                                             <a href="{{ url('/logout') }}"
                                                onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
+                                                     <i class="fa fa-btn fa-sign-out"></i>
                                                 Logout
                                             </a>
 
@@ -83,7 +91,7 @@
                                             </form>
                                         </li>
                                         <li>
-                                            <a href="{{ url('/profile')}}" >profile</a>
+                                            <a href="{{ url('/profile')}}" ><i class="fa fa-btn fa-user"></i> Profile</a>
 
                                         </li>
                                     </ul>
@@ -102,3 +110,4 @@
         <script src="https://use.fontawesome.com/9444f23a15.js"></script>
     </body>
 </html>
+

@@ -12,13 +12,13 @@
                         <hr class="intro-divider">
                         <ul class="list-inline intro-social-buttons">
                             <li>
-                                <a href="#" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
+                                <a href="https://cdp-ub-2016.slack.com/messages/general/" class="btn btn-default btn-lg"><i class="fa fa-slack fa-fw"></i> <span class="network-name">Slack</span></a>
                             </li>
                             <li>
-                                <a href="#" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
+                                <a href="https://github.com/WillianPaiva/scrumDevRepo" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
                             </li>
                             <li>
-                                <a href="#" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Linkedin</span></a>
+                                <a href="https://waffle.io/WillianPaiva/scrumDevRepo" class="btn btn-default btn-lg"><i class="fa fa-map-o fa-fw"></i> <span class="network-name">Waffle</span></a>
                             </li>
                         </ul>
                     </div>
