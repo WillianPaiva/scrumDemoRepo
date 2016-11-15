@@ -55,21 +55,26 @@
                                                 Priority
                                                 <span class="badge">{{ item.priority }}</span>
                                             </label>
-                                                <label class="label label-danger" v-if="item.sprint_id > 0" style="margin-right: 7px;" >
 
-                                                sprint#{{ getIndexSprint(item.sprint_id) }}
-                                            </label>
+                                            <select  v-model="item.sprint_id" class="label label-danger pull-left" v-on:change="setSprint(item.id,item.sprint_id)" style="margin-right: 7px; width: 100px">
+                                                <option v-for="(spch, index) in SprintsIds" v-bind:value="spch" >Sprint#{{index}}</option>
+                                            </select>
 
-                                            <label class="label label-success" v-if="item.date_estimated != null" style="margin-right: 7px;" >
+
+                                            <label class="label label-success" v-if="item.date_begin != null" style="margin-right: 7px;" >
                                                 begin {{ item.date_begin }}
                                             </label>
                                             <label class="label label-info" v-if="item.date_estimated !=null" style="margin-right: 7px;" >
                                                 expected {{ item.date_estimated }}
                                             </label>
-
-                                            <button class="btn btn-danger pull-right" v-on:click="deleteUs(item)"><span class="fa fa-trash"></span></button>
-                                            <a class="btn btn-info pull-right" :href="openus(item)"><span class="fa fa-gear"></span></a>
-                                        <button class="btn btn-info pull-right" v-on:click="getUs(item)" ><span class="fa fa-pencil-square-o"></span></button>
+                                            <label class="label label-danger" v-if="item.date_finished !=null" style="margin-right: 7px;" >
+                                                finished {{ item.date_finished }}
+                                            </label>
+                                            <div class="btn-group pull-right" role="group">
+                                                <a class="btn btn-info" :href="openus(item)"><span class="fa fa-gear"></span></a>
+                                                <button class="btn btn-info" v-on:click="getUs(item)" ><span class="fa fa-pencil-square-o"></span></button>
+                                                <button class="btn btn-danger" v-on:click="deleteUs(item)"><span class="fa fa-trash"></span></button>
+                                            </div>
                                         </div>
                                     </li>
                                 </ul>
@@ -100,12 +105,16 @@
                                                Sprint#{{ getIndexSprint(item.id) }}
                                             </label>
                                                     {{ item.name }}
+
+                                                <a class="btn btn-warning pull-right" :href="getKanbanLink(item.id)">Kanban</a>
                                         </p>
                                             <div>
                                                 <label class="label label-info" style="margin-right: 7px;" >
                                                     Begin: {{ item.date_begin }} </label> <label class="label label-success"> Finish: {{ item.date_estimated }} </label>
-                                                <button class="btn btn-danger pull-right" v-on:click="deleteSprint(item)"><span class="fa fa-trash"></span></button>
-                                                <button class="btn btn-info pull-right" v-on:click="getSprint(item)" ><span class="fa fa-pencil-square-o"></span></button>
+                                            <div class="btn-group pull-right" role="group">
+                                                <button class="btn btn-info" v-on:click="getSprint(item)" ><span class="fa fa-pencil-square-o"></span></button>
+                                                <button class="btn btn-danger" v-on:click="deleteSprint(item)"><span class="fa fa-trash"></span></button>
+                                            </div>
                                             </div>
                                         </li>
                                     </ul>
@@ -146,7 +155,7 @@
      watch: {
          order: function(){
              this.fetch();
-         }
+         },
      },
      props:['id'],
      mounted(){
@@ -237,6 +246,13 @@
          openus: function(item){
              return '/userstory/'+item.id+'/'+this.getIndex(item.id);
         },
+         getKanbanLink: function(item){
+             return '/kanban/'+item;
+        },
+         setSprint: function(usid,sprintid){
+             this.$http.post('/api/userstory/setsprint/'+usid+'/'+sprintid);
+             this.fetch();
+         }
 
      }
 

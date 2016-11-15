@@ -4,6 +4,7 @@
  * include Vue and Vue Resource. This gives a great starting point for
  * building robust, powerful web applications using Vue and Laravel.
  */
+import Sortable from 'sortablejs';
 
 require('./bootstrap');
 
@@ -23,6 +24,8 @@ Vue.component(
     'passport-personal-access-tokens',
     require('./components/passport/PersonalAccessTokens.vue')
 );
+
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -39,6 +42,9 @@ Vue.component('createtask', require('./components/createtask.vue'));
 Vue.component('showus', require('./components/showUs.vue'));
 Vue.component('editus',require('./components/editus.vue'));
 Vue.component('editsprint',require('./components/editSprint.vue'));
+Vue.component('kanban',require('./components/kanban.vue'));
+Vue.component('sortablecoluns',require('./components/sortablecoluns.vue'));
+
 // Vue.component('members', require('./components/Members.vue'));
 
 const app = new Vue({
@@ -48,7 +54,10 @@ const app = new Vue({
     }
 
 });
+const board = new Vue({
+    el: '#boardWrapper'
 
+});
 const backlog = new Vue({
     el: '#backlog'
 });

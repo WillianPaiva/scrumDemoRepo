@@ -22,6 +22,7 @@ Route::group(['middleware' => 'api'], function() {
     Route::get('tasks/{id}', function($id) {
 
         $userstory = App\UserStory::find($id);
+
         return Response::json($userstory->Tasks()->get());
     });
     Route::get('userlist', function(Request $request) {
@@ -43,6 +44,17 @@ Route::group(['middleware' => 'api'], function() {
         $project = App\Project::find($projectid);
         $project->members()->attach($userid);
     });
+
+    Route::post('userstory/setsprint/{id}/{sp}', function($id, $sp) {
+
+        $sprint=App\Sprint::find($sp);
+        $us=App\UserStory::find($id);
+        $us->sprint_id=$sp;
+        $us->date_begin=$sprint->date_begin;
+        $us->date_estimated=$sprint->date_estimated;
+        $us->save();
+    });
+
     Route::post('members/delete/{projectid}/{userid}', function($projectid, $userid) {
         $project = App\Project::find($projectid);
         $project->members()->detach($userid);
@@ -92,6 +104,21 @@ Route::group(['middleware' => 'api'], function() {
             'date_begin' => $request->date_begin,
             'date_estimated' => $request->date_estimated,
             'project_id' => $request->project_id,
+        ]);
+        App\Layout::create([
+            'name' => 'TODO',
+            'position' => 0,
+            'sprint_id' => $sprint->id,
+        ]);
+        App\Layout::create([
+            'name' => 'DOING',
+            'position' => 1,
+            'sprint_id' => $sprint->id,
+        ]);
+        App\Layout::create([
+            'name' => 'DONE',
+            'position' => 2,
+            'sprint_id' => $sprint->id,
         ]);
         return $sprint;
     });
@@ -157,6 +184,24 @@ Route::group(['middleware' => 'api'], function() {
         return Response::json(App\Project::find($id));
     });
 
+    Route::get('layout/{id}', function($id) {
+        $sprint = App\Sprint::find($id);
+        $cols = $sprint->Collunms()->orderBy('position')->get();
+        return Response::json($cols);
+    });
+
+    Route::get('get_tasks/{id}', function($id) {
+        $sprint = App\Sprint::find($id);
+        $result = array();
+        foreach($sprint->UserStorys()->get() as $us){
+            foreach($us->Tasks()->get() as $task){
+                array_push($result, $task);
+            }
+
+        }
+        return Response::json($result);
+    });
+
     Route::get('sprintnb/{id}', function($id){
         $sprint = App\Sprint::find($id);
         $project = App\Project::find($sprint->project);
@@ -204,7 +249,7 @@ Route::group(['middleware' => 'api'], function() {
             'id' => null,
             'name' => $request->name,
             'description' => $request->description,
-            'status' => "",
+            'status' => "TODO",
             'commit' => "",
             'priority' => $request->priority,
             'cost' => $request->cost,

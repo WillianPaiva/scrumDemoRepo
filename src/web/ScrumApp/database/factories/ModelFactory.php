@@ -78,7 +78,7 @@ return[
 
 $factory ->define(App\Task::class,function(Faker\Generator $faker){
 $user_stories=App\UserStory::all()->pluck('id')->toArray();
-$status=array('TODO,ON GOING,DONE');
+$status=array('TODO','DOING','DONE');
   return [
 'name'=>$faker->word,
 'description'=>$faker->paragraph,
