@@ -21,5 +21,6 @@ Route::get('/project/list','ProjectController@getProject')->name('projects');
 Route::get('/backlog/{id}','backlogController@index')->name('backlog');
 Route::get('/userstory/{id}/{nb}','userstoryController@index')->name('userstory');
 Route::get('/kanban/{id}','sprintController@index')->name('sprint');
+Route::get('/stats/{id}','statsController@index')->name('stats');
 
 

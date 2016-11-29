@@ -32,6 +32,7 @@ Vue.component(
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 Vue.config.silent = true;
+
 Vue.component('projects', require('./components/projects.vue'));
 Vue.component('adduser', require('./components/AddUserForm.vue'));
 Vue.component('modal', require('./components/modal.vue'));
@@ -43,21 +44,24 @@ Vue.component('showus', require('./components/showUs.vue'));
 Vue.component('editus',require('./components/editus.vue'));
 Vue.component('editsprint',require('./components/editSprint.vue'));
 Vue.component('kanban',require('./components/kanban.vue'));
+Vue.component('sortabletasks',require('./components/sortabletasks.vue'));
 Vue.component('sortablecoluns',require('./components/sortablecoluns.vue'));
+Vue.component('burndown',require('./components/burndown.vue'));
+Vue.component('stats',require('./components/statistics.vue'));
 
-// Vue.component('members', require('./components/Members.vue'));
 
 const app = new Vue({
     el: '#memb',
     data:{
         members: []
     }
-
 });
+
 const board = new Vue({
     el: '#boardWrapper'
-
 });
+
+
 const backlog = new Vue({
     el: '#backlog'
 });
@@ -65,10 +69,19 @@ const backlog = new Vue({
 const userstory = new Vue({
     el: '#userstory'
 });
+
 const projects = new Vue({
     el: '#projects'
 });
 
 const createtask = new Vue({
     el: '#createtask'
+});
+
+const stats = new Vue({
+    el: '#stats',
+    data:{
+        labels:[],
+        sprints:[]
+    }
 });

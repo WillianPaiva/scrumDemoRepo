@@ -58,9 +58,8 @@ $factory->define(App\Sprint::class,function(Faker\Generator $faker){
 
 
 $factory->define(App\UserStory::class,function(Faker\Generator $faker){
-$sprints=App\Sprint::all()->pluck('id')->toArray();
 $projects=App\Project::all()->pluck('id')->toArray();
-$status=array('TODO','ON GOING','DONE');
+$status=array('TODO','DOING','DONE');
 return[
   'description'=>$faker->paragraph,
   'status'=>$status[array_rand($status)],
@@ -71,8 +70,6 @@ return[
   'effort'=>$faker->randomDigitNotNull,
   'priority'=>$faker->randomDigitNotNull,
   'project_id'=>$projects[array_rand($projects)],
-  'sprint_id'=>$sprints[array_rand($sprints)],
-
 ];
   });
 

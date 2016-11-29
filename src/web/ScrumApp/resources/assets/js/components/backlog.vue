@@ -26,6 +26,10 @@
                                  <button class="btn btn-success pull-right" v-on:click="showAddUs = true">
                                      <i class="fa fa-plus"></i>
                                  </button>
+
+                                 <a class="btn btn-info pull-right" :href="getStatsLink()">
+                                     <i class="fa fa-line-chart"></i>
+                                 </a>
                              </div>
 
                             </div>
@@ -99,7 +103,7 @@
                                     <h1>No Sprints</h1>
                                 </div>
                                     <ul class="list-group">
-                                        <li class="list-group-item clearfix" style="" v-for="item in sprint">
+                                        <li class="list-group-item clearfix" :style="checkDate(item)" v-for="item in sprint">
                                         <p style="top:15%;" class="truncate">
                                             <label class="label label-warning" style="margin-right: 7px;">
                                                Sprint#{{ getIndexSprint(item.id) }}
@@ -252,6 +256,19 @@
          setSprint: function(usid,sprintid){
              this.$http.post('/api/userstory/setsprint/'+usid+'/'+sprintid);
              this.fetch();
+         },
+         checkDate: function(item){
+             var begin = new Date(item.date_begin);
+             var end = new Date(item.date_estimated);
+             var today = new Date();
+             if(begin <= today && today <= end){
+                 return " -moz-box-shadow: inset 0 0 15px #faa123; -webkit-box-shadow: inset 0 0 15px #faa123; box-shadow:inset 0 0 15px #faa123; "
+             }else{
+                 return "";
+             }
+         },
+         getStatsLink: function(){
+             return '/stats/'+this.id;
          }
 
      }
