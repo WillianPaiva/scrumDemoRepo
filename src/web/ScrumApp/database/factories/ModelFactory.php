@@ -38,13 +38,16 @@ $factory->define(App\Project::class, function (Faker\Generator $faker) {
         'version' => $faker->randomDigit,
     ];
 });
+
 $factory->define(App\Flag::class,function(Faker\Generator $faker){
-$colours=array('red','blue');
-return [
-'name'=>$faker->word,
-'color'=>$colours[array_rand($colours)],
-];
-  });
+  $colours=array('red','blue');
+    return [
+      'name'=>$faker->word,
+      'color'=>$colours[array_rand($colours)],
+      ];
+  }
+);
+
 $factory->define(App\Sprint::class,function(Faker\Generator $faker){
   $projects=App\Project::all()->pluck('id')->toArray();
   return [
@@ -59,6 +62,7 @@ $factory->define(App\Sprint::class,function(Faker\Generator $faker){
 
 $factory->define(App\UserStory::class,function(Faker\Generator $faker){
 $projects=App\Project::all()->pluck('id')->toArray();
+$sprint=App\Sprint::all()->pluck('id')->toArray();
 $status=array('TODO','DOING','DONE');
 return[
   'description'=>$faker->paragraph,
@@ -70,6 +74,7 @@ return[
   'effort'=>$faker->randomDigitNotNull,
   'priority'=>$faker->randomDigitNotNull,
   'project_id'=>$projects[array_rand($projects)],
+  'sprint_id'=>$sprint[array_rand($sprint)],
 ];
   });
 
@@ -89,12 +94,13 @@ $status=array('TODO','DOING','DONE');
   'user_story_id'=>$user_stories[array_rand($user_stories)],
   ];
 });
+
 $factory->define(App\Layout::class,function(Faker\Generator $faker){
 $sprints=App\Sprint::all()->pluck('id')->toArray();
 return [
   'name'=>$faker->name,
   'position'=>$faker->randomDigitNotNull,
   'sprint_id'=>$sprints[array_rand($sprints)]
-];
+  ];
 
 });

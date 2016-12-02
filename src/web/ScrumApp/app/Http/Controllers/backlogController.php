@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Project;
 
 class backlogController extends Controller
 {
@@ -19,6 +20,10 @@ class backlogController extends Controller
         $this->middleware('auth');
     }
     public function index($id){
+
+        $project = Project::find($id);
+        session()->put('backlogActiv',$id);
+        session()->put('titleProject',$project->name);
         return view('project/backlog',['id' => $id]);
     }
 }

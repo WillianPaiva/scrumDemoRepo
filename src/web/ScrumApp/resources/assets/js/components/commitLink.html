@@ -1,0 +1,23 @@
+<div class="container">
+    <modal title="Add a commit link to a finished task "
+           :show.sync="boolShow"
+           :okText="'Submit'"
+           :okClass="'btn btn-success'"
+           :cancelClass="'btn btn-danger'"
+           @ok="editTask"
+           @cancel="cancel">
+
+
+        <form class="form-horizontal" >
+            <div class="form-group">
+                <label for="name"  class="col-md-4 control-label">Commit link</label>
+                <div class="col-md-6">
+                    <textarea id="commit" v-model="commitLinkRequest.commit" type="text" class="form-control" name="commit" required />
+                </div>
+            </div>
+
+
+</div>
+        </form>
+    </modal>
+</div>

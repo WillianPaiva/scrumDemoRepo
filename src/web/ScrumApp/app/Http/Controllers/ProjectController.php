@@ -31,6 +31,7 @@ class ProjectController extends Controller
     public function getProject()
     {
         $projects = Auth::user()->owns()->get();
+        session()->forget('backlogActiv');
         return view('/project/list',compact('projects'));
     }
 

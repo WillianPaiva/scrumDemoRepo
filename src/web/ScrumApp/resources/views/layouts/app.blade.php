@@ -54,19 +54,32 @@
 
                     <div class="collapse navbar-collapse" id="app-navbar-collapse">
                         <!-- Left Side Of Navbar -->
-                        <!-- Right Side Of Navbar -->
-                        <ul class="nav navbar-nav navbar-right">
-                            <!-- Authentication Links -->
+                        @if (!Auth::guest())
+                        <ul class="nav navbar-nav navbar-left">
 
                             @if (!Auth::guest())
 
 
                                 @if (Route::currentRouteName() == 'projects')
-                                    <li class="active"><a href="{{ url('/project/list') }}"><span class="fa fa-home"></span></a></li>
+                                    <li class="active"><a style="left:10px" href="{{ url('/project/list') }}"><span class="fa fa-home"></span></a></li>
                                 @else
-                                    <li><a href="{{ url('/project/list') }}"><span class="fa fa-home"></span></a></li>
+                                    <li><a style="left:10px" href="{{ url('/project/list') }}"><span class="fa fa-home"></span></a></li>
                                 @endif
                             @endif
+                        @if (Route::currentRouteName() == 'backlog')
+                            <? php $id = {{Session::get('backlogActiv')}} ?>
+                            <li class="active"><a class="btn btn-project navbar-btn" href="{{route('backlog', ['id' => Session::get('backlogActiv')])}}" role="button" style="left:10px;margin-bottom: 0px;
+    margin-top: 0px;">{{Session::get('titleProject')}}</a></li>
+                        @endif
+                            @if (Session::get('backlogActiv') != '' && Route::currentRouteName() != 'backlog')
+                            <li><a href="{{route('backlog', ['id' => Session::get('backlogActiv')])}}" role="button" style="left:10px;margin-bottom: 0px;
+    margin-top: 0px;">{{Session::get('titleProject')}}</a></li>
+                        @endif
+                        </ul>
+                        @endif
+                        <!-- Right Side Of Navbar -->
+                        <ul class="nav navbar-nav navbar-right">
+                            <!-- Authentication Links -->
                             @if (Auth::guest())
                                 <li><a href="{{ url('/login') }}">Login</a></li>
                                 <li><a href="{{ url('/register') }}">Register</a></li>

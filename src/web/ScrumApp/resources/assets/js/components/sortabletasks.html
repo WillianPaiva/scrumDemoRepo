@@ -1,0 +1,27 @@
+
+<div>
+    <ul class="list-group">
+        <li class="list-group-item clearfix"
+            v-for="task in tasks" :taskid="task.id">
+            <p style="top:15%;" class="truncate">
+                {{task.name}}
+
+            </p>
+                <div><label class="label label-warning" style="margin-right: 7px;">
+                    US#{{getUsIndex(task.user_story_id)}}
+                </label>
+                </div>
+                <div>
+                    <label class="label label-info" style="margin-right: 7px;">
+                        priority
+                        <span class="badge">{{ task.priority }}</span>
+                    </label>
+                    <label class="label label-success" style="margin-right: 7px;">
+                        cost
+                        <span class="badge">{{ task.cost }}</span>
+                    </label>
+                </div>
+        </li>
+    </ul>
+
+</div>

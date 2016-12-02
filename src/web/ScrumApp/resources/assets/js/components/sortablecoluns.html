@@ -1,0 +1,48 @@
+
+<div>
+    <ul class="list-inline">
+        <li class="DocumentItem" v-for="(col, index) in colunms" :index="index">
+            <div class="panel panel-warning">
+                <div class="panel-heading clearfix">
+                    {{col.name}}
+
+                    <button class="btn btn-danger btn-xs pull-right"  v-if="col.name != 'DONE' && col.name!= 'TODO' " v-on:click="deleteCol(col.name)">
+                        <i class="fa fa-minus fa-lg"></i>
+                    </button>
+
+                </div>
+                <div class="panel-body">
+                    <div class="well">
+                        <sortabletasks v-bind:ids="ids" :sprintid="sprintid" :status="col.name" ></sortabletasks>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li><button class="btn btn-success" v-on:click="modalShow=true">
+            <i class="fa fa-plus"></i>
+        </button></li>
+    </ul>
+    <div class="container">
+        <modal title="new colunm"
+               :show.sync="modalShow"
+               :okText="'Create'"
+               :okClass="'btn btn-success'"
+               :cancelClass="'btn btn-danger'"
+               @ok="addColunm"
+               @cancel="modalShow=false">
+            <form class="form-horizontal" >
+                <div class="form-group">
+                    <label for="name"  class="col-md-4 control-label">Name</label>
+                    <div class="col-md-6">
+                        <input id="name"
+                               v-model="colname"
+                               type="text"
+                               class="form-control"
+                               name="name"
+                               required />
+                    </div>
+                </div>
+            </form>
+        </modal>
+    </div>
+</div>

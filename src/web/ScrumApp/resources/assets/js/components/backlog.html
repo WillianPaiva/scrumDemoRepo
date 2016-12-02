@@ -1,0 +1,147 @@
+<div>
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading clearfix">
+                        <div class="container-fluid panel-container">
+                            <div class="col-xs-3 text-left">
+                                <h4 class="panel-title abc">
+                                    {{ project.name }}
+                                </h4>
+                            </div>
+
+
+                            <div class="col-xs-6 text-center ">
+                                <select  v-model="order" class="soflow">
+                                    <option value="created_at">created</option>
+                                    <option value="effort">effort</option>
+                                    <option value="priority">priority</option>
+                                </select>
+                            </div>
+
+                            <div class="col-xs-3 text-right">
+                                <button class="btn btn-success pull-right" v-on:click="showAddUs = true">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+
+                                <a class="btn btn-info pull-right" :href="getStatsLink()">
+                                    <i class="fa fa-line-chart"></i>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="well">
+                            <div v-if="isEmpty()">
+                                <h1>backlog is empty</h1>
+                            </div>
+                            <ul class="list-group">
+                                <li class="list-group-item clearfix" :style="checkUsDone(item)"
+                                    v-for="(item , index) in userstory">
+                                    <p style="top:15%;" class="truncate">
+
+                                        <label class="label label-warning" style="margin-right: 7px;">
+                                            US#{{getIndex(item.id)}}
+                                        </label>
+                                        {{ item.description }}
+                                    </p>
+                                    <div>
+                                        <label class="label label-success">
+                                            Effort
+                                            <span class="badge">{{ item.effort }}</span>
+                                        </label>
+                                        <label class="label label-info">
+                                            Priority
+                                            <span class="badge">{{ item.priority }}</span>
+                                        </label>
+
+                                        <select  v-model="item.sprint_id" class="label label-danger pull-left" v-on:change="setSprint(item.id,item.sprint_id)" style="margin-right: 7px; width: 100px">
+                                            <option v-for="(spch, index) in SprintsIds" v-bind:value="spch" >Sprint#{{index}}</option>
+                                        </select>
+
+
+                                        <label class="label label-success" v-if="item.date_begin != null" style="margin-right: 7px;" >
+                                            begin {{ item.date_begin }}
+                                        </label>
+                                        <label class="label label-info" v-if="item.date_estimated !=null" style="margin-right: 7px;" >
+                                            expected {{ item.date_estimated }}
+                                        </label>
+                                        <label class="label label-danger" v-if="item.date_finished !=null" style="margin-right: 7px;" >
+                                            finished {{ item.date_finished }}
+                                        </label>
+                                        <div class="btn-group pull-right" role="group">
+                                            <a class="btn btn-info" :href="openus(item)"><span class="fa fa-gear"></span></a>
+                                            <button class="btn btn-info" v-on:click="getUs(item)" ><span class="fa fa-pencil-square-o"></span></button>
+                                            <button class="btn btn-danger" v-on:click="deleteUs(item)"><span class="fa fa-trash"></span></button>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading clearfix">
+                        <div class="col-xs-3 text-left">
+                            <h4 class="panel-title pull-left" style="padding-top: 7.5px;">
+                                Sprints
+                            </h4>
+                        </div>
+                        <div class="col-xs-6 text-center ">
+                            <select  v-model="orderSprint" class="soflow">
+                                <option value="created_at">created</option>
+                                <option value="date_begin">Date Begin</option>
+                                <option value="date_estimated">Date Finish</option>
+                            </select>
+                        </div>
+
+                        <button class="btn btn-success pull-right" v-on:click="showAddSprint = true" >
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="well">
+                            <div v-if="SprintisEmpty()">
+                                <h1>No Sprints</h1>
+                            </div>
+                            <ul class="list-group">
+                                <li class="list-group-item clearfix" :style="checkDate(item)" v-for="item in sprint">
+                                    <p style="top:15%;" class="truncate">
+                                        <label class="label label-warning" style="margin-right: 7px;">
+                                            Sprint#{{ getIndexSprint(item.id) }}
+                                        </label>
+                                        {{ item.name }}
+
+                                        <a class="btn btn-warning pull-right" :href="getKanbanLink(item.id)">Kanban</a>
+                                    </p>
+                                    <div>
+                                        <label class="label label-info" style="margin-right: 7px;" >
+                                            Begin: {{ item.date_begin }} </label> <label class="label label-success"> Finish: {{ item.date_estimated }} </label>
+                                        <div class="btn-group pull-right" role="group">
+                                            <button class="btn btn-info" v-on:click="getSprint(item)" ><span class="fa fa-pencil-square-o"></span></button>
+                                            <button class="btn btn-danger" v-on:click="deleteSprint(item)"><span class="fa fa-trash"></span></button>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createus v-bind:boolShow="showAddUs" :id="id" @close="close()"></createus>
+    <editus  v-bind:boolShow="showEditUs" :id="idTosend" @close="close()" @ok="update()"></editus>
+    <createsprint v-bind:boolShow="showAddSprint" :id="id" @close="close()"></createsprint>
+    <editsprint v-bind:boolShow="showEditSprint" :id="SprintId" @close="close()" @ok="update()"></editsprint>
+
+
+
+</div>

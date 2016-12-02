@@ -1,0 +1,44 @@
+<div>
+    <div class="well">
+        <ul class="list-group">
+            <li class="list-group-item clearfix" style="" v-for="item in membs">
+                <span style="position:absolute; top:30%;"> {{ item.name }}</span>
+                <span class="pull-right button-group">
+                    <button type="button" v-on:click="deleteMember(item.id)"
+                            class="btn btn-danger"><span class="fa fa-trash"></span></button>
+                </span>
+            </li>
+        </ul>
+    </div>
+    <label for="user" class="col-md-4 control-label">User</label>
+    <div class="col-md-6">
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-spinner fa-spin" v-if="loading"></i>
+                <template v-else>
+                    <i class="fa fa-search" v-show="isEmpty"></i>
+                    <i class="fa fa-times" v-show="isDirty" @click="reset"></i>
+                </template>
+            </span>
+            <input type="text"
+                   class="form-control"
+                   name="user"
+                   placeholder="Search user"
+                   autocomplete="on"
+                   v-model="query"
+                   @keydown.down="down"
+                   @keydown.up="up"
+                   @keydown.enter="hit"
+                   @keydown.esc="reset"
+                   @blur="reset"
+                   @input="update"/>
+
+        </div><!-- /input-group -->
+        <ul v-show="hasItems" class="autocomplist">
+            <li v-for="(item,index) in items" :class="activeClass(index)"
+                @mousedown="hit" @mousemove="setActive(index)">
+                <span class="name" v-text="item.name"></span>
+            </li>
+        </ul>
+    </div>
+</div>
